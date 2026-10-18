@@ -54,8 +54,57 @@ def parse(grid):
                     return None, None
     return domains, assigned
 
+def solve(domains, assigned, stats, useMRV=True):
+    if len(assigned) == 81:
+        return domains
+
+    unassigned = [cell for cell in domains if cell not in assigned]
+
+    if useMRV:
+        cell = min(unassigned, key=lambda x: len(domains[x]))
+    else:
+        cell = unassigned[0]
+
+    for num in sorted(domains[cell]):
+        stats['attempts'] += 1
+        newDomains = {c: set(domains[c]) for c in domains}
+        newAssigned = set(assigned)
+        if assignNum(newDomains, cell, newAssigned, num):
+            result = solve(newDomains, newAssigned, stats, useMRV)
+            if result:
+                return result
+
+    return None
+
+def solveSudoku(grid, useMRV=True):
+    domains, assigned = parse(grid)
+    stats = {'attempts': 0}
+    if domains is None:
+        return None, stats
+
+    return solve(domains, assigned, stats, useMRV), stats
+
+def showPuzzle(domains):
+    for row in range(9):
+        print(" ".join(str(next(iter(domains[(row, col)]))) for col in range(9)))
 
 
 
-  
-        
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python main.py <puzzle_file>")
+        sys.exit(1)
+
+    puzzle_file = sys.argv[1]
+    grid = loadPuzzle(puzzle_file)
+    solution, stats = solveSudoku(grid, useMRV=True)
+
+    if solution:
+        print("Solved Sudoku Puzzle:")
+        showPuzzle(solution)
+        print(f"Number of attempts: {stats['attempts']}")
+    else:
+        print("No solution found.")
+
+if __name__ == "__main__":
+    main()
