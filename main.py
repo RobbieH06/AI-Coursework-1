@@ -15,6 +15,7 @@ def cellPeers():
 
 Peers = cellPeers()
 
+#Loads Sudoku puzzle from a txt file
 def loadPuzzle(directory):
     puzzle = []
     try:
