@@ -21,7 +21,7 @@ def loadPuzzle(directory):
     try:
         with open(directory, 'r') as sudoku:
             for line in sudoku:
-                line = line.strip()
+                line = line.split()
                 if len(line) != 9 or not all(c in '0123456789' for c in line):
                     raise ValueError("Invalid puzzle format")
                 puzzle.append([int(cell) for cell in line])
@@ -32,5 +32,30 @@ def loadPuzzle(directory):
 
     return puzzle
 
-        
+#Assigns a number to a cell and update the peers' domains
+def assignNum(domains, cell, assigned, num):
+    domains[cell] = {num}
+    assigned.add(cell)
+    for peer in Peers[cell]:
+        if num in domains[peer]:
+            domains[peer].remove(num)
+            if not domains[peer]:
+                return False
+    return True
+
+#Parses the grid and initializes the domains and assigned cells
+def parse(grid):
+    domains = {(row, col): set(range(1, 10)) for row in range(9) for col in range(9)}
+    assigned = set()
+    for i in range(9):
+        for j in range(9):
+            if grid[i][j] != 0:
+                if not assignNum(domains, (i, j), assigned, grid[i][j]):
+                    return None, None
+    return domains, assigned
+
+
+
+
+  
         
