@@ -1,5 +1,6 @@
+import sys
 
-
+#Creates a dictionary of peers for each cell
 def cellPeers(): 
     peers = {}
 
@@ -14,4 +15,21 @@ def cellPeers():
 
 Peers = cellPeers()
 
-def loadPuzzle()
+def loadPuzzle(directory):
+    puzzle = []
+    try:
+        with open(directory, 'r') as sudoku:
+            for line in sudoku:
+                line = line.strip()
+                if len(line) != 9 or not all(c in '0123456789' for c in line):
+                    raise ValueError("Invalid puzzle format")
+                puzzle.append([int(cell) for cell in line])
+
+    except FileNotFoundError:
+        print(f"Error: File '{directory}' not found.")
+        sys.exit(1)
+
+    return puzzle
+
+        
+        
