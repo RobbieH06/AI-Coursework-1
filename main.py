@@ -75,13 +75,14 @@ def solve(domains, assigned, stats, useMRV=True):
             result = solve(newDomains, newAssigned, stats, useMRV)
             if result:
                 return result
+        stats['backtracks'] += 1    
 
     return None
 
 #Solves the sudoku and returns the solved sudoku with the number of attempts taken
 def solveSudoku(grid, useMRV=True):
     domains, assigned = parse(grid)
-    stats = {'attempts': 0, 'time': 0}
+    stats = {'attempts': 0, 'time': 0, 'backtracks': 0}
     if domains is None:
         return None, stats
     
@@ -112,6 +113,7 @@ def main():
         showPuzzle(solution)
         print(f"Number of attempts: {stats['attempts']}")
         print(f"Time taken: {stats['time']:.6f} seconds")
+        print(f"Number of backtracks: {stats['backtracks']}")
     else:
         print("No solution found.")
 
