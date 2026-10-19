@@ -1,4 +1,5 @@
 import sys
+import time
 
 #Creates a dictionary of peers for each cell
 def cellPeers(): 
@@ -80,11 +81,15 @@ def solve(domains, assigned, stats, useMRV=True):
 #Solves the sudoku and returns the solved sudoku with the number of attempts taken
 def solveSudoku(grid, useMRV=True):
     domains, assigned = parse(grid)
-    stats = {'attempts': 0}
+    stats = {'attempts': 0, 'time': 0}
     if domains is None:
         return None, stats
+    
+    startTime = time.time()
+    solution = solve(domains, assigned, stats, useMRV)
+    stats['time'] = time.time() - startTime
 
-    return solve(domains, assigned, stats, useMRV), stats
+    return solution, stats
 
 #Shows the solved sudoku in a reable format
 def showPuzzle(domains):
@@ -106,6 +111,7 @@ def main():
         print("Solved Sudoku Puzzle:")
         showPuzzle(solution)
         print(f"Number of attempts: {stats['attempts']}")
+        print(f"Time taken: {stats['time']:.6f} seconds")
     else:
         print("No solution found.")
 
