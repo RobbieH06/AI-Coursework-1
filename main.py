@@ -54,6 +54,7 @@ def parse(grid):
                     return None, None
     return domains, assigned
 
+#Solves the sudoku using backtracking and MRV heuristic
 def solve(domains, assigned, stats, useMRV=True):
     if len(assigned) == 81:
         return domains
@@ -76,6 +77,7 @@ def solve(domains, assigned, stats, useMRV=True):
 
     return None
 
+#Solves the sudoku and returns the solved sudoku with the number of attempts taken
 def solveSudoku(grid, useMRV=True):
     domains, assigned = parse(grid)
     stats = {'attempts': 0}
@@ -84,12 +86,13 @@ def solveSudoku(grid, useMRV=True):
 
     return solve(domains, assigned, stats, useMRV), stats
 
+#Shows the solved sudoku in a reable format
 def showPuzzle(domains):
     for row in range(9):
         print(" ".join(str(next(iter(domains[(row, col)]))) for col in range(9)))
 
 
-
+#Loads the sudoku puzzle from a file, solves it and shows the solution with thye number of attempts
 def main():
     if len(sys.argv) != 2:
         print("Usage: python main.py <puzzle_file>")
@@ -106,5 +109,6 @@ def main():
     else:
         print("No solution found.")
 
+#Runs the program
 if __name__ == "__main__":
     main()
