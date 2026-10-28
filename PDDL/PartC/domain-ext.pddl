@@ -68,7 +68,7 @@
 
     (:action storeData
         :parameters (?r - rover ?l - lander ?d - data ?a - astronaut ?rm - room)
-        :precondition (and (roverLander ?r ?l) (roverData ?r ?d) (astronautLocation ?a ?rm) (astronautLander ?a ?l))
+        :precondition (and (roverLander ?r ?l) (roverData ?r ?d) (astronautLander ?a ?l) (roomLander ?rm ?l) (controlRoom ?rm) (astronautLocation ?a ?rm))
         :effect (and (not (roverData ?r ?d)) (noData ?r) (dataStored ?l ?d))
     )
 
