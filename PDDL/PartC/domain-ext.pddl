@@ -56,7 +56,7 @@
 
    (:action storeSample
         :parameters (?r - rover ?l - lander ?s - sample ?w - waypoint ?a - astronaut ?rm - room)
-        :precondition (and (roverLander ?r ?l) (landerLocation ?l ?w) (roverLocation ?r ?w) (roverSample ?r ?s) (landerEmpty ?l) (astronautLocation ?a ?rm) (astronautLander ?a ?l))
+        :precondition (and (roverLander ?r ?l) (landerLocation ?l ?w) (roverLocation ?r ?w) (roverSample ?r ?s) (landerEmpty ?l) (roomLander ?rm ?l) (dockingBay ?rm) (astronautLocation ?a ?rm) (astronautLander ?a ?l))
         :effect (and (not (roverSample ?r ?s)) (noSample ?r)(not (landerEmpty ?l)) (sampleStored ?l ?s))
     )
     
