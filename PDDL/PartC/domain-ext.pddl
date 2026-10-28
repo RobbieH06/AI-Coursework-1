@@ -28,10 +28,10 @@
         (sampleStored ?l - lander ?s - sample)
         (dataLocation ?d - data ?w - waypoint)
         (dataStored ?l - lander ?d - data)
-        (astronautLocation ?a - astronaut ?r - room)
+        (astronautLocation ?a - astronaut ?rm - room)
         (astronautLander ?a - astronaut ?l - lander)
-        (roomPath ?r1 - room1 ?r2 - room)
-        (roomLander ?r - room ?l - lander)
+        (roomPath ?rm1 - room1 ?rm2 - room)
+        (roomLander ?rm - room ?l - lander)
     )
 
     (:action deploy
@@ -53,8 +53,8 @@
     )
 
    (:action storeSample
-        :parameters (?r - rover ?l - lander ?s - sample ?w - waypoint ?a - astronaut ?r - room)
-        :precondition (and (roverLander ?r ?l) (landerLocation ?l ?w) (roverLocation ?r ?w) (roverSample ?r ?s) (landerEmpty ?l) (astronautLocation ?a ?r) (astronautLander ?a ?l))
+        :parameters (?r - rover ?l - lander ?s - sample ?w - waypoint ?a - astronaut ?rm - room)
+        :precondition (and (roverLander ?r ?l) (landerLocation ?l ?w) (roverLocation ?r ?w) (roverSample ?r ?s) (landerEmpty ?l) (astronautLocation ?a ?rm) (astronautLander ?a ?l))
         :effect (and (not (roverSample ?r ?s)) (noSample ?r)(not (landerEmpty ?l)) (sampleStored ?l ?s))
     )
     
@@ -65,7 +65,7 @@
     )
 
     (:action storeData
-        :parameters (?r - rover ?l - lander ?d - data ?a - astronaut ?r - room)
+        :parameters (?r - rover ?l - lander ?d - data ?a - astronaut ?rm - room)
         :precondition (and (roverLander ?r ?l) (roverData ?r ?d) (astronautLocation ?a ?r) (astronautLander ?a ?l))
         :effect (and (not (roverData ?r ?d)) (noData ?r) (dataStored ?l ?d))
     )
@@ -77,9 +77,9 @@
     )
 
     (:action astronautMove
-        :parameters (?a - astronaut ?r1 - room ?r2 - room ?l - lander)
-        :precondition (and (astronautLander ?a ?l) (roomLander ?r ?l) (roomPath ?r1 ?r2) (astronautLocation ?a ?r))
-        :effect(and (not (astronautLocation ?a ?r1)) (astronautLocation ?a ?r2))
+        :parameters (?a - astronaut ?rm1 - room ?rm2 - room ?l - lander)
+        :precondition (and (astronautLander ?a ?l) (roomPath ?rm1 ?rm2) (astronautLocation ?a ?rm))
+        :effect(and (not (astronautLocation ?a ?rm1)) (astronautLocation ?a ?rm2))
     )
 
 )
