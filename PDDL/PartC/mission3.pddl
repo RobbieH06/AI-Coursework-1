@@ -56,6 +56,18 @@
         (roomPath controlRoom2 dockingBay2)
         (astronautLocation alice dockingBay1)
         (astronautLocation bob controlRoom2)
+        (astronautLander alice lander1)
+        (astronautLander bob lander2)
+
+        (roomLander dockingBay1 lander1)
+        (roomLander controlRoom1 lander1)
+        (roomLander dockingBay2 lander2)
+        (roomLander controlRoom2 lander2)
+
+        (dockingBay dockingBay1)
+        (dockingBay dockingBay2)
+        (controlRoom controlRoom1)
+        (controlRoom controlRoom2)
 
     )
 

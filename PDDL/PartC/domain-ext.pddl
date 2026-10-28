@@ -30,14 +30,16 @@
         (dataStored ?l - lander ?d - data)
         (astronautLocation ?a - astronaut ?rm - room)
         (astronautLander ?a - astronaut ?l - lander)
-        (roomPath ?rm1 - room1 ?rm2 - room)
+        (roomPath ?rm1 - room ?rm2 - room)
         (roomLander ?rm - room ?l - lander)
+        (dockingBay ?rm - room)
+        (controlRoom ?rm - room)
     )
 
     (:action deploy
-        :parameters (?r - rover ?l - lander ?w - waypoint)
-        :precondition (and (aboard ?r) (roverLander ?r ?l) (landerLocation ?l ?w))
-        :effect (and (not (aboard ?r))(roverLocation ?r ?w))
+        :parameters (?r - rover ?l - lander ?w - waypoint ?a - astronaut ?rm - room)
+        :precondition (and (aboard ?r) (roverLander ?r ?l) (landerLocation ?l ?w) (astronautLander ?a ?l) (roomLander ?rm ?l) (dockingBay ?rm) (astronautLocation ?a ?rm))
+        :effect (and (not (aboard ?r)) (roverLocation ?r ?w))
     )
 
     (:action move
@@ -66,7 +68,7 @@
 
     (:action storeData
         :parameters (?r - rover ?l - lander ?d - data ?a - astronaut ?rm - room)
-        :precondition (and (roverLander ?r ?l) (roverData ?r ?d) (astronautLocation ?a ?r) (astronautLander ?a ?l))
+        :precondition (and (roverLander ?r ?l) (roverData ?r ?d) (astronautLocation ?a ?rm) (astronautLander ?a ?l))
         :effect (and (not (roverData ?r ?d)) (noData ?r) (dataStored ?l ?d))
     )
 
@@ -78,7 +80,7 @@
 
     (:action astronautMove
         :parameters (?a - astronaut ?rm1 - room ?rm2 - room ?l - lander)
-        :precondition (and (astronautLander ?a ?l) (roomPath ?rm1 ?rm2) (astronautLocation ?a ?rm))
+        :precondition (and (astronautLander ?a ?l) (roomPath ?rm1 ?rm2) (astronautLocation ?a ?rm1))
         :effect(and (not (astronautLocation ?a ?rm1)) (astronautLocation ?a ?rm2))
     )
 
